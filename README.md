@@ -1,3 +1,12 @@
+This is a awesome portfolio for mern stack developers. This is created with next js and typescript. for backend it uses node. express, mongoose
+
+## features
+
+1. secure login with next authentication
+2. beautiful responsive ui
+3. logged in user can manage information, blogs and projects
+4. log in using google and github
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
