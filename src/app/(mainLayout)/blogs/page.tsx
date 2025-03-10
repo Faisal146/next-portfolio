@@ -1,9 +1,15 @@
 import { TBlog } from "@/app/(dashboardLayout)/dashboard/blogs/page";
 import BlogCard from "@/components/ui/BlogCard";
+import { Metadata } from "next";
 import React from "react";
 
+export const metadata: Metadata = {
+  title: "blogs ",
+  description: "explore all blogs",
+};
+
 const BlogsPagee = async () => {
-  const blogRes = await fetch("http://localhost:5000/api/v1/blogs", {
+  const blogRes = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/blogs`, {
     cache: "no-store",
   });
 

@@ -14,6 +14,14 @@ export const authOptions = {
     }),
     // ...add more providers here
   ],
+  callbacks: {
+    async redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
+      if (url.startsWith(baseUrl)) {
+        return "/dashboard"; // Redirect to /dashboard
+      }
+      return url;
+    },
+  },
   pages: {
     signIn: "/login",
   },

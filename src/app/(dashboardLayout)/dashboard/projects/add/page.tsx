@@ -11,7 +11,7 @@ interface FormData {
   link: string;
   github: string;
   technologies: string | string[];
-  img: string[];
+  img: string | string[];
   isDeleted: boolean;
 }
 
@@ -19,16 +19,12 @@ interface FormData {
 const schema = yup.object().shape({
   title: yup.string().required("Title is required"),
   description: yup.string().required("Description is required"),
-  link: yup.string().required("Link is required"),
+  link: yup.string().required("Link is required").url("must be a valid URL"),
   github: yup
     .string()
     .url("Must be a valid URL")
     .required("Github URL is required"),
-  email: yup
-    .string()
-    .email("Must be a valid email")
-    .required("Email is required"),
-  technology: yup.string().required("technology is required"),
+  technologies: yup.string().required("technology is required"),
   img: yup
     .string()
     .url("Must be a valid URL")
@@ -43,22 +39,23 @@ const UpdateForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema) as any,
   });
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
-    // console.log(data);
+    data.technologies = (
+      typeof data.technologies === "string"
+        ? data.technologies.split(",")
+        : data.technologies
+    ).map((tech: string) => tech.trim());
 
-    const technologies = data.technologies
-      .split(",")
-      .map((tech: string) => tech.trim());
-    // console.log(technologies);
+    data.img = (
+      typeof data.img === "string" ? data.img.split(",") : data.img
+    ).map((img: string) => img.trim());
 
-    data.img = data.img.split(",").map((img: string) => img.trim());
+    console.log(`${process.env.NEXT_PUBLIC_BACKEND_URL}`);
 
-    data.technologies = technologies;
-
-    fetch("http://localhost:5000/api/v1/projects", {
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/projects`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -75,7 +72,7 @@ const UpdateForm = () => {
           Swal.fire("error", data.message, "error");
         }
       })
-      .catch((err) => // console.log(err));
+      .catch((err) => console.log(err));
 
     // Handle form submission here
   };

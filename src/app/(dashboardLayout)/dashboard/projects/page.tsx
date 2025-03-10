@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Swal from "sweetalert2";
 import Image from "next/image";
 import ItemDeleteBtn from "@/components/ui/ItemDeleteBtn";
 
@@ -15,7 +14,9 @@ export type TProject = {
 };
 
 const ProjectPage = async () => {
-  const response = await fetch("http://localhost:5000/api/v1/projects");
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/projects`
+  );
   const projectsData = await response.json();
 
   const projects = projectsData?.data.result;

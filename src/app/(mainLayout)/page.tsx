@@ -18,14 +18,20 @@ import ProjectCard from "@/components/ui/ProjectCard";
 import { TProject } from "../(dashboardLayout)/dashboard/projects/page";
 import { TBlog } from "../(dashboardLayout)/dashboard/blogs/page";
 import BlogCard from "@/components/ui/BlogCard";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Portfolio",
+  description: "My portfolio Website",
+};
 
 const HomePage = async () => {
-  const aboutRes = await fetch("http://localhost:5000/api/v1/about");
+  const aboutRes = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/about`);
   const about = await aboutRes.json();
   const aboutData = about.data[0];
   // console.log(aboutData);
 
-  const blogRes = await fetch("http://localhost:5000/api/v1/blogs", {
+  const blogRes = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/blogs`, {
     next: {
       revalidate: 30,
     },
@@ -35,11 +41,14 @@ const HomePage = async () => {
   const blogData = blogs.data.result;
   // console.log(blogData);
 
-  const projectRes = await fetch("http://localhost:5000/api/v1/projects", {
-    next: {
-      revalidate: 30,
-    },
-  });
+  const projectRes = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/projects`,
+    {
+      next: {
+        revalidate: 30,
+      },
+    }
+  );
 
   const projects = await projectRes.json();
   const projectData = projects.data.result;
@@ -64,9 +73,14 @@ const HomePage = async () => {
             <FaInstagram></FaInstagram>
           </Link>
         </div>
-        <button className="btn btn-primary w-40 mx-auto font-medium mt-4">
+        <Link
+          href={
+            "https://drive.google.com/file/d/1vUTaqHD-4p92AjNnG1uHiUotY4WvY-fR/view?usp=sharing"
+          }
+          className="btn btn-primary w-40 mx-auto font-medium mt-4"
+        >
           My Resume
-        </button>
+        </Link>
       </div>
 
       <div className=" bg-base-200" id="about">
@@ -125,7 +139,7 @@ const HomePage = async () => {
               />
             </figure>
             <div className="card-body items-center text-center">
-              <h2 className="card-title">Web Development</h2>
+              <h2 className="card-title">Web Design(UI/UX)</h2>
               <p>
                 A card component has a figure, a body part, and inside body
                 there are title and actions parts
@@ -144,7 +158,7 @@ const HomePage = async () => {
               />
             </figure>
             <div className="card-body items-center text-center">
-              <h2 className="card-title">Web Development</h2>
+              <h2 className="card-title">SEO</h2>
               <p>
                 A card component has a figure, a body part, and inside body
                 there are title and actions parts
@@ -190,7 +204,7 @@ const HomePage = async () => {
           </div>
           <div className="card bg-base-300 w-96 shadow-sm">
             <div className="card-body items-center text-center">
-              <h2 className="card-title">Front-End</h2>
+              <h2 className="card-title">Back-end</h2>
               <div>
                 <button className="bg-base-300 btn rounded-full border-2 font-medium btn-soft text-md px-5 m-1">
                   <FaHtml5></FaHtml5> HTML
@@ -217,7 +231,7 @@ const HomePage = async () => {
           </div>
           <div className="card bg-base-300 w-96 shadow-sm">
             <div className="card-body items-center text-center">
-              <h2 className="card-title">Front-End</h2>
+              <h2 className="card-title">UI/UX Design</h2>
               <div>
                 <button className="bg-base-300 btn rounded-full border-2 font-medium btn-soft text-md px-5 m-1">
                   <FaHtml5></FaHtml5> HTML
@@ -267,8 +281,8 @@ const HomePage = async () => {
           <h1 className="text-4xl">Latest Blogs</h1>
           <h1 className="text-xl my-2">Explore my latest tech blogs</h1>
 
-          <div className="grid grid-cols-2 gap-6 max-w-6xl mx-auto mt-10">
-            {blogData.slice(0, 2).map((blog: TBlog) => (
+          <div className="grid grid-cols-3 gap-6 max-w-6xl mx-auto mt-10">
+            {blogData.slice(0, 3).map((blog: TBlog) => (
               <BlogCard key={blog._id} blog={blog}></BlogCard>
             ))}
           </div>

@@ -1,6 +1,35 @@
 import BlogDetailsCard from "@/components/ui/BlogDetailsCard";
 import React from "react";
 
+// export const generateStaticParams = async () => {
+//   const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/blogs`);
+
+//   const blogs = await res.json();
+
+//   return blogs.slice(0, 3).map((item: TBlog) => ({
+//     blogId: item._id,
+//   }));
+// };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ blog: string }>;
+}) {
+  const { blog } = await params;
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/blogs/${blog}`
+  );
+
+  const blogDetails = await res.json();
+
+  return {
+    title: blogDetails.title,
+    description: blogDetails.description,
+  };
+}
+
 const BlogPagee = async ({
   params,
 }: {
@@ -9,7 +38,7 @@ const BlogPagee = async ({
   const blogId = (await params).blogId;
 
   const projectRes = await fetch(
-    `http://localhost:5000/api/v1/blogs/${blogId}`
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/blogs/${blogId}`
   );
 
   const project = await projectRes.json();

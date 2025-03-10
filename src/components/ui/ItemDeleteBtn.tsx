@@ -7,7 +7,7 @@ const ItemDeleteBtn = ({ model, id }: { model: string; id: string }) => {
   // console.log(`Deleting ${model} with id: ${id}`);
   const handleDelete = async () => {
     try {
-      await fetch(`http://localhost:5000/api/v1/${model}/${id}`, {
+      await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${model}/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

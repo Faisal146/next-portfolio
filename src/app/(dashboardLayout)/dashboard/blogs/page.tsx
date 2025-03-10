@@ -12,7 +12,7 @@ export type TBlog = {
 };
 
 const BlogTable = async () => {
-  const response = await fetch("http://localhost:5000/api/v1/blogs");
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/blogs`);
   const blogsData = await response.json();
 
   const blogs = blogsData.data.result;

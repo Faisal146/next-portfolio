@@ -51,14 +51,15 @@ const UpdateForm: React.FC = () => {
     reset,
     formState: { errors },
   } = useForm<FormData>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema) as any,
     defaultValues: formData,
   });
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/v1/about")
+    fetch(`https://next-portfolio-server-mu.vercel.app/api/v1/about`)
       .then((res) => res.json())
       .then((data) => {
+        console.log("data is ", data);
         setFormData(data.data[0]);
         reset(data.data[0]);
       });
@@ -68,7 +69,7 @@ const UpdateForm: React.FC = () => {
   const onSubmit: SubmitHandler<FormData> = (data) => {
     // console.log(data);
 
-    fetch("http://localhost:5000/api/v1/about", {
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/about`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -77,8 +78,9 @@ const UpdateForm: React.FC = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        // setFormData(data.data[0]);
-        // reset(data.data[0]);
+        console.log(data);
+        setFormData(data.data[0]);
+        reset(data.data[0]);
         Swal.fire(
           "success",
           "About information updated successfully",

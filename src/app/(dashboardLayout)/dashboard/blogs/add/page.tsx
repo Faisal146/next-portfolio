@@ -1,5 +1,4 @@
 "use client";
-import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -38,7 +37,7 @@ const CreateBlog = () => {
   const onSubmit: SubmitHandler<FormData> = (data) => {
     // console.log(data);
 
-    fetch("http://localhost:5000/api/v1/blogs", {
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/blogs`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -55,7 +54,7 @@ const CreateBlog = () => {
           Swal.fire("error", data.message, "error");
         }
       })
-      .catch((err) => // console.log(err));
+      .catch((err) => console.log(err));
 
     // Handle form submission here
   };

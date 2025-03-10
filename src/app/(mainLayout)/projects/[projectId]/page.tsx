@@ -1,7 +1,35 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { FaCss3, FaHtml5, FaReact } from "react-icons/fa";
+
+// export const generateStaticParams = async () => {
+//   const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/projects`);
+
+//   const projects = await res.json();
+
+//   return projects.slice(0, 3).map((item: TProject) => ({
+//     projectId: item._id,
+//   }));
+// };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ projectId: string }>;
+}) {
+  const { projectId } = await params;
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/projects/${projectId}`
+  );
+
+  const blogDetails = await res.json();
+
+  return {
+    title: blogDetails.title,
+    description: blogDetails.description,
+  };
+}
 
 const ProjectPage = async ({
   params,
@@ -11,7 +39,7 @@ const ProjectPage = async ({
   const projectId = (await params).projectId;
 
   const projectRes = await fetch(
-    `http://localhost:5000/api/v1/projects/${projectId}`
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/projects/${projectId}`
   );
 
   const project = await projectRes.json();
