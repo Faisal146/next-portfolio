@@ -1,5 +1,7 @@
 This is a awesome portfolio for mern stack developers. This is created with next js and typescript. for backend it uses node. express, mongoose
 
+## Live Link - https://next-portfolio-two-topaz.vercel.app/
+
 ## features
 
 1. secure login with next authentication
